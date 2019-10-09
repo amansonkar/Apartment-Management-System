@@ -18,7 +18,8 @@ from django.urls import path, include
 from AMS import views
 
 urlpatterns = [
-    path('',views.login_redirect,name='login_redirect'),
+    #path('',views.login_redirect,name='login_redirect'),
+    #path('',views.home_redirect,name='home_redirect'),
     path('admin/', admin.site.urls),
-    path('account/', include('accounts.urls')),
+    path('', include('accounts.urls')),
 ]

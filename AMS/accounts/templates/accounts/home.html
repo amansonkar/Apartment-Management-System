@@ -1,9 +1,75 @@
 {% extends 'index.html' %}
 
 {% block head %}
-<title>Home</title>
+    <title>Home</title>
 {% endblock %}
 
 {% block body %}
-<h1>HOME</h1>
+    <section class="section">
+        <div class="container has-text-centered">
+            <header class="is-centered">
+                <h1 class="title is-spaced has-text-weight-bold is-3">ABOUT US</h1>
+                <h2 class="subtitle">
+                    APARTMENT is a Web-based apartment management solution that enables owners of residential properties to
+                    take complete control of every aspect of their business, including the rent, vacancy and maintenance cycles.
+                    Its streamlines management of the rent cycle with key features such as tenant and lease tracking, full general ledger
+                    accounting, automated rent and late fee reminders and on-demand reports.
+
+                    Additionally, rent collection can be automated; and property managers can receive online payments via Buildium’s tenant
+                    portal.
+                    
+                    Tenants and rental owners can submit requests online via its’s tenant and owner portals. Property managers can turn
+                    these requests into work items and assign them for maintenance.
+                </h2>
+            </header>
+        </div>
+    </section>
+    <section id="contact" class="section is-medium" style="background-color: linen">
+        <div class="container">
+            <div class="columns">
+                <div class="column is-one-third">
+                    <div class="section">
+                        <br>
+                        <h1 class="title">Get in Touch</h1>
+                        <br>
+                        <h5>Address:</h5><span>123 Qwerty, INDIA</span>
+                        
+                        <h5>Email:</h5>amansonkr@gmail.com
+                        
+                        <h5>Phone:</h5>+919129932523
+                    </div>
+                </div>
+                <div class="column">
+                    <div class="title-wrapper has-text-centered">
+                        <h2 class="title is-2 is-spaced">Contact Us</h2>
+                        <h3 class="subtitle is-5 is-muted">We'd love to hear your opinion about it!</h3>
+                        <div class="divider is-centered"></div>
+                    </div>
+            
+                    <div class="content-wrapper">
+                        <div class="columns">
+                            <div class="column is-6 is-offset-3">
+                                <form>
+                                    <div class="columns is-multiline">
+                                        <div class="column is-6">
+                                            <input class="input is-medium" type="text" placeholder="Enter your Name">
+                                        </div>
+                                        <div class="column is-6">
+                                            <input class="input is-medium" type="email" placeholder="Enter your Email">
+                                        </div>
+                                        <div class="column is-12">
+                                            <textarea class="textarea" rows="10" placeholder="Write someting ..."></textarea>
+                                        </div>  
+                                    </div>
+                                    <div class="has-text-centered">
+                                        <button type="button" class="button is-primary">Send Message</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 {% endblock %}

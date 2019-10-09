@@ -1,0 +1,116 @@
+{% extends 'index.html' %}
+
+{% block hero-body %}
+    <div class="box container section has-text-centered" style="max-width:360px;background-color:lightgoldenrodyellow">
+        <header class="is-centered">
+            <h1 class="title is-spaced has-text-weight-bold is-3">Register</h1>
+            <p>You can Register here!</p>
+            <br>
+        </header>
+        <div>
+            {% if form.errors %}
+            <p>Your data is not in correct format. Please try again.</p>
+            {% endif %}
+            <form id="signupForm" method="POST" >
+                {% csrf_token %}
+                <div class="field">
+                    <div class="control has-icons-left">
+                        <input id="id_door" class="input" type="text" name="door" placeholder="Door Number (1-N-12-799/29)" required autofocus>
+                        <span class="icon is-small is-left">
+                        <i class="fas fa-door-open"></i>
+                        </span>
+                        </span>
+                    </div>
+                </div>
+                <div class="field">
+                    <div class="control has-icons-left">
+                        <input id="id_mobile" class="input" type="text" name="mobile" placeholder="Mobile Number">
+                        <span class="icon is-small is-left">
+                        <i class="fas fa-mobile"></i>
+                        </span>
+                    </div>
+                </div>
+                <div class="field">
+                    <div class="control has-icons-left">
+                        <input id="id_email" class="input" type="text" name="email" placeholder="Email">
+                        <span class="icon is-small is-left">
+                        <i class="fas fa-envelope"></i>
+                        </span>
+                    </div>
+                </div>
+                <div class="field">
+                    <p class="control">
+                        <button class="button is-primary is-medium is-normal is-fullwidth" type="submit">Register</button>
+                    </p>
+                </div>
+            </form>
+            <p>Already have a account?</p>
+            <p class="control">
+                <a class="button is-medium is-normal is-fullwidth" href="{% url 'signin' %}">SIGN IN</a>
+            </p>
+        </div>
+    </div>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', function(e) {
+        FormValidation.formValidation(
+            document.getElementById('signupForm'),
+            {
+                fields: {
+                    door: {
+                        validators: {
+                            notEmpty: {
+                                message: 'Door Number is required'
+                            },
+                            stringLength: {
+                                //min: 9,
+                                //max: 30,
+                                //message: 'The door number must be more than 9 and less than 30 characters long'
+                            },
+                            regexp: {
+                                regexp: /^[0-9]-[A-Z]-[0-9]{1,2}-[0-9]{1,3}\/[0-9]{1,2}$/,
+                                message: 'The door number must be in format (1-N-12-799/29) without paranthesis'
+                            }
+                        }
+                    },
+                    mobile:{
+                        validators: {
+                            notEmpty: {
+                                message: 'Mobile Number is required',
+                            },
+                            stringLength: {
+                                min: 10,
+                                max: 10,
+                                message: 'Mobile Number must be of 10 digit',
+                            },
+                            numeric: {
+                                message: 'Mobile Number must be a numeric',
+                            }
+                        }
+                    },
+                    email: {
+                        validators: {
+                            notEmpty: {
+                                message: 'The email address is required'
+                            },
+                            emailAddress: {
+                                message: 'The input is not a valid email address'
+                            }
+                        }
+                    },
+                },
+                plugins: {
+                    trigger: new FormValidation.plugins.Trigger(),
+                    bulma: new FormValidation.plugins.Bulma(),
+                    submitButton: new FormValidation.plugins.SubmitButton(),
+                    icon: new FormValidation.plugins.Icon({
+                        valid: 'fas fa-check',
+                        invalid: 'fa fa-times',
+                        validating: 'fas fa-sync'
+                    }),
+                },
+            }
+        );
+    });
+    </script>
+{% endblock %}

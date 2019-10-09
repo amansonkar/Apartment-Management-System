@@ -4,12 +4,12 @@
 <title>Profile</title>
 {% endblock %}
 
-{% block body %}
-    <div class="container">
+{% block hero-body %}
+    <div class="box container">
         <form method="POST">
             {% csrf_token %}
             {{ form.as_p}}
-            <button type="submit">Submit</button>
+            <button class="button is-primary" type="submit">Submit</button>
         </form>
     </div>
 {% endblock %}

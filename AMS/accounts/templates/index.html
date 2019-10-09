@@ -6,13 +6,117 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     {% load static %}
     <link rel="stylesheet" href="{% static 'accounts/css/bulma.css' %}">
+    <link rel="stylesheet" href="{% static 'accounts/css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'accounts/css/formvalidation.css' %}">
+    <script src="{% static 'accounts/js/all.js' %}"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/es6-shim/0.35.3/es6-shim.min.js"></script>    
+    <script src="{% static 'accounts/js/formvalidation.js' %}"></script>
+    <script src="{% static 'accounts/js/Bulma.js' %}"></script>
     {% block head %}
     <title>Index</title>
     {% endblock %}
+    <style>
+        .hero {
+            background: url("{% static 'accounts/img/apartment1.jpg' %}") center / cover;
+        }
+        @media (max-width: 1024px) { .hero { background: url("{% static 'accounts/img/apartment1.jpg' %}") center / cover; } }
+        @media (max-width:  768px) { .hero { background: url("{% static 'accounts/img/apartment1.jpg' %}") center / cover; } }
+    </style>
 </head>
 <body>
-    {% block body %}
-    <h1>INDEX</h1>
-    {% endblock %}
+    <div id="apartment-management-app">
+        <div id="header">
+            {% block header %}
+                {% block hero %}
+                    <section class="hero is-fullheight">
+                        <div class="hero-head">
+                            <div class="columns is-mobile is-marginless heading has-text-weight-bold">
+                                <div class="column left"></div>
+                                <div class="column center desktop">
+                                    <h1 class="subtitle is-4"><a href="{% url 'home' %}">Apartment Management System</a></h1>
+                                </div>
+                                <div class="column right">
+                                    {% if user.is_authenticated %}
+                                        <p class="navbar-item has-text-black desktop"><a href="{% url 'user_home' %}">HOME</a></p>
+                                        <p class="navbar-item has-text-black desktop"><a href="{% url 'view_profile' %}">PROFILE</a></p>
+                                        <p class="navbar-item has-text-black desktop"><a href="{% url 'signout' %}">SIGN OUT</a></p>
+                                    {% else %}
+                                        <p class="navbar-item has-text-black desktop"><a href="{% url 'signin' %}">SIGN IN</a></p>
+                                        <p class="navbar-item has-text-black desktop"><a href="{% url 'signup' %}">SIGN UP</a></p>
+                                    {% endif %}
+                                    <!--figure class="navbar-item image has-text-black center">
+                                        <i class="fas fa-bars" style="width: 1rem; height: 1rem;"></i>
+                                    </figure-->
+                                </div>
+                            </div>
+                        </div>
+                        <div class="hero-body">
+                            {% block hero-body %}
+                                <div class="is-overlay has-text-centered single-spaced" style="top: 182px;">
+                                    <h1 class="subtitle is-4 has-text-weight-light has-text-black"></h1>
+                                    <h2 class="title is-1 has-text-black">!! Welcome !!</h2>
+                                </div>
+                            {% endblock %}
+                        </div>
+                    </section>
+                {% endblock %}
+            {% endblock %}
+        </div>
+        <div id="body">
+            {% block body %}
+            {% endblock %}
+        </div>
+        <div id="footer" style="background-color: khaki">
+            <footer class="section">
+                <div class="container is-small">
+                    <div class="content">
+                        <div class="columns">
+                            <div class="column is-one-third">
+                                <p class="field">
+                                    <h1>APARTMENT</h1>
+                                    <h6>MANAGEMENT SYSTEM</h6>
+                                </p>
+                                <p class="field" style="margin-top:auto">© 2019 APARTMENT. <span class="no-wrap">All
+                                        rights reserved.</span></p>
+                            </div>
+                            <div class="column">
+                                <p class="field" ><strong>Company</strong></p>
+                                <p class="field"><a href="#" > About Us </a></p>
+                                <p class="field"><a href="#" > The Team </a></p>
+                            </div>
+                            <div class="column">
+                                <p class="field" ><strong> Support</strong></p>
+                                <p class="field"><a href="#" > FAQs </a></p>
+                                <p class="field"><a href="#" > Guides </a></p>
+                                <p class="field"><a href="#"> Contact </a></p>
+                            </div>
+                            <div class="column">
+                                <p class="field" ><strong> Term of Service</strong></p>
+                                <p class="field"><a href="#"> Privacy Policy </a></p>
+                                <p class="field"><a href="#"> Tenant policy </a></p>
+                            </div>
+                            <div class="column">
+                                <p class="field" ><strong> Get connected</strong></p>
+                                <p class="field">
+                                    <span class="icon fa-lg has-text-info has-text-grey">
+                                        <a target="_blank" href="//facebook.com/"><i class="fab fa-facebook" style="width: 1rem; height: 1rem;"></i></a>
+                                    </span>
+                                    <span class="icon fa-lg has-text-info has-text-grey">
+                                        <a target="_blank" href="//instagram.com"><i class="fab fa-instagram" style="width: 1rem; height: 1rem;"></i></a>
+                                    </span>
+                                    <span class="icon fa-lg has-text-info has-text-grey">
+                                        <a target="_blank" href="//twitter.com/"><i class="fab fa-twitter" style="width: 1rem; height: 1rem;"></i></a>
+                                    </span>
+                                    <span class="icon fa-lg has-text-info has-text-grey">
+                                        <a target="_blank" href="//t.me/"><i class="fab fa-telegram" style="width: 1rem; height: 1rem;"></i></a> 
+                                    </span>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </footer>
+        </div>
+    </div>
 </body>
 </html>

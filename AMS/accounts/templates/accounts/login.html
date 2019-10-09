@@ -1,49 +1,70 @@
-{% extends 'index.html' %}
-
-{% block body %}
-<section class="hero section is-block is-relative is-white is-large">
-    <div class="container">
-        <header class="is-centered">
-            <h1 class="title is-spaced has-text-weight-bold is-3">Welcome back</h1>
-            <p>You can log in here!</p>
-        </header>
-        <h1 class="title is-spaced has-text-weight-bold is-4">Login</h1>
-        <div>
-            {% if form.errors %}
-            <p>Your username and password didn't match. Please try again.</p>
-            {% endif %}
-            
-            {% if next %}
-                {% if user.is_authenticated %}
-                <p>Your account doesn't have access to this page. To proceed,
-                please login with an account that has access.</p>
-                {% else %}
-                <p>Please login to see this page.</p>
-                {% endif %}
-            {% endif %}
-            <form method="POST" >
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>Login Form</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <script>
+      $(function(){
+        arr=[]
+        $('#send').click(function(e){
+          e.preventDefault();
+          var user = $('#un').val();
+          $.ajax({
+            url:'{% url "generate"%}',
+            data:{'user':user},
+            success:function(data){
+              if(data.search('@')>0){
+                arr = data.split('@');
+                $('#otpt').html(arr[0]);
+              }
+              else{
+                $('#otpt').html(data);
+              }
+            }
+          });
+        });
+        $('#eotp').keyup(function(){
+          var eotp = $(this).val();
+          if(eotp==arr[1]){
+            $('#c').html("<br/>Varification Complete").css({'color':'green'});
+            $('#loginbtn').removeAttr('disabled');
+          }
+          else{
+            $('#c').html("Varification Pending");
+          }
+        });
+      });
+    </script>
+  </head>
+  <body>
+    <div class="container bg-light py-5">
+      <div class="row py-5 my-5">
+        <div class="col-md-4 mx-auto">
+          <div class="card p-3">
+            <div class="card-head">
+              <h2 class='card-title text-center'>Login Here</h2>
+            </div>
+            <div class="card-body">
+              <form method="post">
                 {% csrf_token %}
-                <div class="field">
-                    <div class="control">
-                        {{ form.username.label_tag }}
-                        {{ form.username }}
-                    </div>
+                <div class="form-group">
+                  <input type="text" name="un" placeholder='Enter Username' class='form-control' id='un' value=""/>
+                  <a href="#" id='send' class='card-link float-right pt-1'>Send OTP?</a>
+                  <br/><span class='text-success' id='otpt'></span>&nbsp;<span class='text-danger' id='c'></span>
                 </div>
-                <div class="field">
-                    <div class="control">
-                        {{ form.password.label_tag }}
-                        {{ form.password }}
-                    </div>
+                <div class="form-group">
+                  <input type="text" name="" placeholder='Enter OTP' class='form-control' id='eotp' value=""/>
                 </div>
-                <div class="field">
-                    <p class="control">
-                        <button class="button is-primary is-medium is-normal is-fullwidth" type="submit">Sign in</button>
-                    </p>
+                <div class='form-group'>
+                  <input type="submit" class='btn btn-primary btn-block' id='loginbtn' value="Log In" disabled>
                 </div>
-                <input type="hidden" name="next" value="{{ next }}">
-            </form>
-            <p><a href="">Forgot Password?</a></p>
+              </form>
+            </div>
+          </div>
         </div>
+      </div>
     </div>
-</section>
-{% endblock %}
+  </body>
+</html>

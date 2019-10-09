@@ -1,0 +1,82 @@
+{% extends 'index.html' %}
+
+{% block hero-body %}
+    <div class="box container section has-text-centered" style="max-width:360px;background-color:lightgoldenrodyellow">
+        <header class="is-centered">
+            <h1 class="title is-spaced has-text-weight-bold is-3">Welcome back</h1>
+            <p>You can log in here!</p>
+            <br>
+        </header>
+        <div>
+            {% if form.errors %}
+            <p>Your username and password didn't match. Please try again.</p>
+            {% endif %}
+            <form method="POST" >
+                {% csrf_token %}
+                <div class="field">
+                    <div class="control has-icons-left has-icons-right">
+                        <input id="id_username" class="input" type="username" name="username" placeholder="Username" required autofocus>
+                        <span class="icon is-small is-left">
+                        <i class="fas fa-user"></i>
+                        </span>
+                        </span>
+                    </div>
+                </div>
+                <div class="field">
+                    <div class="control has-icons-left">
+                        <input id="id_password" class="input" type="password" name="password" placeholder="Password" required>
+                        <span class="icon is-small is-left">
+                        <i class="fas fa-lock"></i>
+                        </span>
+                    </div>
+                </div>
+                <p><a href="{% url 'reset_password' %}">Forgot Password?</a></p>
+                <div class="field">
+                    <div class="control">
+                        <button class="button is-primary is-medium is-normal is-fullwidth" type="submit">SIGN IN</button>
+                    </div>
+                </div>
+                <input type="hidden" name="next" value="{{ next }}">
+            </form>
+            <p>Don't have an account?</p>
+            <p class="control">
+                <a class="button is-medium is-normal is-fullwidth" href="{% url 'signup' %}">SIGN UP</a>
+            </p>
+        </div>
+    </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function(e) {
+            FormValidation.formValidation(
+                document.getElementById('signupForm'),
+                {
+                    fields: {
+                        username: {
+                            validators: {
+                                notEmpty: {
+                                    message: 'Username is required'
+                                }
+                            }
+                        },
+                        password: {
+                            validators: {
+                                notEmpty: {
+                                    message: 'Password is required'
+                                }
+                            }
+                        },
+                    },
+                    plugins: {
+                        trigger: new FormValidation.plugins.Trigger(),
+                        bulma: new FormValidation.plugins.Bulma(),
+                        submitButton: new FormValidation.plugins.SubmitButton(),
+                        icon: new FormValidation.plugins.Icon({
+                            valid: 'fas fa-check',
+                            invalid: 'fa fa-times',
+                            validating: 'fas fa-sync'
+                        }),
+                    },
+                }
+            );
+        });
+        </script>
+{% endblock %}

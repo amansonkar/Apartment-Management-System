@@ -4,12 +4,13 @@
 <title>Profile</title>
 {% endblock %}
 
-{% block body %}
-<div class="container">
+{% block hero-body %}
+<div class="box container">
     <h1>Profile</h1>
     <p>User: {{ user }}</p>
     <p>First Name: {{ user.first_name }}</p>
     <p>Last Name: {{ user.last_name }}</p>
     <p>Email: {{ user.email }}</p>
+    <a class="button is-primary is-medium is-normal" href="{% url 'edit_profile' %}">Edit Profile</a>
 </div>
 {% endblock %}

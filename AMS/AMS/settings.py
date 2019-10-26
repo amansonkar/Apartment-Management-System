@@ -76,7 +76,7 @@ WSGI_APPLICATION = 'AMS.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'ams',
+        'NAME': 'ams1',
         'USER': 'postgres',
         'PASSWORD': 'aman1234',
         'HOST': '127.0.0.1',
@@ -84,6 +84,7 @@ DATABASES = {
     }
 }
 
+print(DATABASES.get('default').get('NAME'))
 
 # Password validation
 # https://docs.djangoproject.com/en/2.2/ref/settings/#auth-password-validators
@@ -125,3 +126,8 @@ STATIC_URL = '/static/'
 
 LOGIN_REDIRECT_URL = '/user/'
 
+MEDIA_ROOT = os.path.join(BASE_DIR,'media')
+
+MEDIA_URL = '/media/'
+
+AUTH_USER_MODEL = 'accounts.UserProfile'

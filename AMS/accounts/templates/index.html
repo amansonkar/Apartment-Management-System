@@ -8,7 +8,9 @@
     <link rel="stylesheet" href="{% static 'accounts/css/bulma.css' %}">
     <link rel="stylesheet" href="{% static 'accounts/css/style.css' %}">
     <link rel="stylesheet" href="{% static 'accounts/css/formvalidation.css' %}">
-    <script src="{% static 'accounts/js/all.js' %}"></script>
+    <link rel="stylesheet" href="{% static 'accounts/css/fontawesome.css' %}">
+    <script src="{% static 'accounts/js/jQuery.js' %}"></script>
+    <script src="{% static 'accounts/js/fa.js' %}"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/es6-shim/0.35.3/es6-shim.min.js"></script>    
     <script src="{% static 'accounts/js/formvalidation.js' %}"></script>
     <script src="{% static 'accounts/js/Bulma.js' %}"></script>
@@ -22,6 +24,8 @@
         @media (max-width: 1024px) { .hero { background: url("{% static 'accounts/img/apartment1.jpg' %}") center / cover; } }
         @media (max-width:  768px) { .hero { background: url("{% static 'accounts/img/apartment1.jpg' %}") center / cover; } }
     </style>
+    {% block script %}
+    {% endblock %}
 </head>
 <body>
     <div id="apartment-management-app">

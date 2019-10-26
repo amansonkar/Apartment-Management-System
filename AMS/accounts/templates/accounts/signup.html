@@ -1,10 +1,79 @@
 {% extends 'index.html' %}
 
+{% block script %}
+    <script>
+        var p = '';
+        $(function(){
+            $('#get_otp').click(function(){
+                var mobile_number = $('#id_mobile').val();
+                console.log(mobile_number);
+                if(mobile_number.length != 10){
+                    alert("Mobile number is invalid");
+                }
+                else{
+                    $.ajax({
+                        type:"get",
+                        url:'{% url "generate"%}',
+                        data:{'mobile_number':mobile_number},
+                        contentType: "application/json",
+                        dataType:"json",
+                        success:function(data){
+                            p=data;
+                            console.log(p.uid);
+                            if(p!=0){
+                                $('#msg').html('OTP Sent!!! ');
+                                $('#otp_verify').css({'display':'-webkit-inline-box'});
+                                $('#send_otp').val("Resend OTP");
+                            }else{
+                                $('#msg').html( 'You request too many OTP. Try after some time');
+                            } 
+                        }
+                    });
+                }
+            });
+            $('#verify_otp').click(function(){
+                var d = $('#enter_otp').val();
+                if(!d){
+                    alert("Please enter OTP sent on your mobile");
+                }else{
+                    $.ajax({
+                        url:'{% url "validate" %}',
+                        data:{'otp':d,'uid':p.uid},
+                        success:function(data){
+                            console.log(p.contact);
+                            if(data==1){
+                                console.log(p.contact);
+                                $.ajax({
+                                    type:'post',
+                                    url:'{% url "otp_update" %}',
+                                    headers:{
+                                        'X-CSRFToken':'{{csrf_token}}',
+                                    },
+                                    data:{
+                                        'contact': p.contact,
+                                        'is_verified': true
+                                    },
+                                    success:function(data){
+                                        $('#msg').html('OTP verification Success!!! ');
+                                        $('#submit_btn').prop('disabled', false);
+                                    }
+                                });
+                            }else{
+                                $('#msg').html('OTP verification Failed!!! ');
+                            }    
+                        }
+                    });
+                }
+            });
+        });
+    </script>
+{% endblock %}
+
 {% block hero-body %}
-    <div class="box container section has-text-centered" style="max-width:360px;background-color:lightgoldenrodyellow">
+    <div class="box container section has-text-centered" style="max-width:367px;background-color:lightgoldenrodyellow">
         <header class="is-centered">
-            <h1 class="title is-spaced has-text-weight-bold is-3">Register</h1>
-            <p>You can Register here!</p>
+            <h1 class="title is-spaced has-text-weight-bold is-3">Welcome</h1>
+            <p>You can Sign Up here!</p>
             <br>
         </header>
         <div>
@@ -15,7 +84,7 @@
                 {% csrf_token %}
                 <div class="field">
                     <div class="control has-icons-left">
-                        <input id="id_door" class="input" type="text" name="door" placeholder="Door Number (1-N-12-799/29)" required autofocus>
+                        <input id="id_door" class="input" type="text" name="door_number" placeholder="Door Number (1-N-12-799/29)" required autofocus>
                         <span class="icon is-small is-left">
                         <i class="fas fa-door-open"></i>
                         </span>
@@ -23,24 +92,39 @@
                     </div>
                 </div>
                 <div class="field">
-                    <div class="control has-icons-left">
-                        <input id="id_mobile" class="input" type="text" name="mobile" placeholder="Mobile Number">
+                    <p class="control is-expanded has-icons-left">
+                        <input id="id_mobile" class="input" type="text" name="mobile_number" placeholder="Mobile Number" required>
                         <span class="icon is-small is-left">
-                        <i class="fas fa-mobile"></i>
+                            <i class="fas fa-mobile"></i>
                         </span>
-                    </div>
+                    </p>
                 </div>
                 <div class="field">
                     <div class="control has-icons-left">
-                        <input id="id_email" class="input" type="text" name="email" placeholder="Email">
+                        <input id="id_email" class="input" type="text" name="email_id" placeholder="Email" required>
                         <span class="icon is-small is-left">
                         <i class="fas fa-envelope"></i>
                         </span>
                     </div>
                 </div>
+                <p class="control">
+                    <input type="button" id="get_otp" class="button" name="get_otp" value="Get OTP"></input>
+                </p>
+                <div id="otp_verify" class="field has-addons" style="display: none;">
+                    <div class="control has-icons-left">
+                        <input id="enter_otp" class="input" type="text" name="otp" placeholder="Enter OTP">
+                        <span class="icon is-small is-left">
+                        <i class="fas fa-keyboard"></i>
+                        </span>
+                    </div>
+                    <p class="control">
+                        <input type="button" id="verify_otp" class="button" value="Verify OTP"></input>
+                    </p>
+                </div>
+                <small id="msg"></small>
                 <div class="field">
                     <p class="control">
-                        <button class="button is-primary is-medium is-normal is-fullwidth" type="submit">Register</button>
+                        <button id="submit_btn" class="button is-primary is-medium is-normal is-fullwidth" type="submit" disabled>SIGN UP</button>
                     </p>
                 </div>
             </form>
@@ -57,7 +141,7 @@
             document.getElementById('signupForm'),
             {
                 fields: {
-                    door: {
+                    door_number: {
                         validators: {
                             notEmpty: {
                                 message: 'Door Number is required'
@@ -73,7 +157,7 @@
                             }
                         }
                     },
-                    mobile:{
+                    mobile_number:{
                         validators: {
                             notEmpty: {
                                 message: 'Mobile Number is required',
@@ -88,7 +172,7 @@
                             }
                         }
                     },
-                    email: {
+                    email_id: {
                         validators: {
                             notEmpty: {
                                 message: 'The email address is required'
@@ -103,11 +187,7 @@
                     trigger: new FormValidation.plugins.Trigger(),
                     bulma: new FormValidation.plugins.Bulma(),
                     submitButton: new FormValidation.plugins.SubmitButton(),
-                    icon: new FormValidation.plugins.Icon({
-                        valid: 'fas fa-check',
-                        invalid: 'fa fa-times',
-                        validating: 'fas fa-sync'
-                    }),
+                    defaultSubmit: new FormValidation.plugins.DefaultSubmit(),
                 },
             }
         );

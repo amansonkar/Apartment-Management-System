@@ -4,14 +4,14 @@
     <div class="box container section has-text-centered" style="max-width:363px;background-color:lightgoldenrodyellow">
         <header class="is-centered">
             <h1 class="title is-spaced has-text-weight-bold is-3">Welcome</h1>
-            <p>You can log in here!</p>
+            <p>Setup Username and password here!</p>
             <br>
         </header>
         <div>
             {% if form.errors %}
-            <p>Your username and password didn't match. Please try again.</p>
+            <p>Please try again.</p>
             {% endif %}
-            <form id='signinForm' method="POST" >
+            <form id='registerForm' method="POST" >
                 {% csrf_token %}
                 <div class="field">
                     <div class="control has-icons-left has-icons-right">
@@ -24,30 +24,34 @@
                 </div>
                 <div class="field">
                     <div class="control has-icons-left">
-                        <input id="id_password" class="input" type="password" name="password" placeholder="Password" required>
+                        <input id="id_password1" class="input" type="password" name="password1" placeholder="Password" required>
                         <span class="icon is-small is-left">
                         <i class="fas fa-lock"></i>
                         </span>
                     </div>
                 </div>
-                <p><a href="{% url 'reset_password' %}">Forgot Password?</a></p>
+                <div class="field">
+                    <div class="control has-icons-left">
+                        <input id="id_password2" class="input" type="password" name="password2" placeholder="Confirm Password" required>
+                        <span class="icon is-small is-left">
+                        <i class="fas fa-lock"></i>
+                        </span>
+                    </div>
+                </div>
                 <div class="field">
                     <div class="control">
-                        <button class="button is-primary is-medium is-normal is-fullwidth" type="submit">SIGN IN</button>
+                        <button class="button is-primary is-medium is-normal is-fullwidth" type="submit">REGISTER</button>
                     </div>
                 </div>
                 <input type="hidden" name="next" value="{{ next }}">
             </form>
-            <p>Don't have an account?</p>
-            <p class="control">
-                <a class="button is-medium is-normal is-fullwidth" href="{% url 'signup' %}">SIGN UP</a>
-            </p>
         </div>
     </div>
     <script>
         document.addEventListener('DOMContentLoaded', function(e) {
-            FormValidation.formValidation(
-                document.getElementById('signinForm'),
+            const form = document.getElementById('registerForm');
+            const f = FormValidation.formValidation(
+                form,
                 {
                     fields: {
                         username: {
@@ -57,13 +61,23 @@
                                 }
                             }
                         },
-                        password: {
+                        password1: {
                             validators: {
                                 notEmpty: {
                                     message: 'Password is required'
                                 }
                             }
                         },
+                        password2:{
+                            validators: {
+                                identical: {
+                                    compare: function() {
+                                        return form.querySelector('[name="password1"]').value;
+                                    },
+                                    message: 'The password and its confirm are not the same'
+                                }
+                            }
+                        }
                     },
                     plugins: {
                         trigger: new FormValidation.plugins.Trigger(),
@@ -76,6 +90,9 @@
                     },
                 }
             );
+            form.querySelector('[name="password1"]').addEventListener('input', function() {
+                f.revalidateField('Password2');
+            });
         });
         </script>
 {% endblock %}

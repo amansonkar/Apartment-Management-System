@@ -24,49 +24,7 @@
         color:white !important;
       }
     </style>
-    <script>
-      var p = '';
-      $(function(){
-        $('#sotp').click(function(){
-          var number = $('#id_contact').val();
-          if(number.length != 10){
-            alert("You entered incorrect number");
-          }
-          else{
-            $.ajax({
-              url:'{% url "generate"%}',
-              data:{'number':number},
-              success:function(data){
-                p=data;
-                if(p!=0){
-                  $('#msg').html('OTP Sent!!! ');
-                  $('#votp').css({'display':'block'});
-                  $('#vrotp').css({'display':'block'});
-                  $('#sotp').css({'display':'none'});
-                }else{
-                  $('#msg').html( 'something went wrong');
-                } 
-              }
-            });
-          }
-        });
-        $('#vrotp').click(function(){
-          var d = $('#votp').val();
-          $.ajax({
-            url:'{% url "validate"%}',
-            data:{'number':d,'p':p},
-            success:function(data){
-              if(data===1){
-                $('#msg').html('OTP verification Success!!! ');
-              }else{
-                $('#msg').html('OTP verification Failed!!! ');
-              }
-              
-            }
-          });
-        });
-      });
-    </script>
+    
   </head>
   <body>
     <div class="container-fluid bg-light">

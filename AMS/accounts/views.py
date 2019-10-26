@@ -1,30 +1,103 @@
 from django.shortcuts import render, redirect
-from accounts.forms import RegistrationForm, EditProfileForm
-from django.contrib.auth.models import User
-from django.contrib.auth.forms import PasswordChangeForm
+from accounts.forms import SignupForm, RegistrationForm, ContactForm
+#from django.contrib.auth.models import User
+from django.contrib.auth.forms import PasswordChangeForm, UserCreationForm
 from django.contrib.auth import update_session_auth_hash
 from django.contrib.auth.decorators import login_required
-from .forms import regForm,regform1
+#from .forms import regForm,regform1
 import random,requests,json
 from django.http import HttpResponse, JsonResponse
 from django.contrib.auth import login
-from .models import UserProfile
+from .models import UserProfile, OTP
+from .utils import regex_phone
+from . import send_email
+from django.conf import settings
+User = settings.AUTH_USER_MODEL
 # Create your views here.
 
 def home(request):
-    return render(request,'accounts/home.html')
+    if request.method == 'POST':
+        form = ContactForm(request.POST)
+        if form.is_valid():
+            pass
+    else:
+        form = ContactForm()
+        args = {'form': form}
+        return render(request,'accounts/home.html',args)
 
 def signup(request):
     if request.method == 'POST':
-        form = RegistrationForm(request.POST)
+        form = SignupForm(request.POST)
         if form.is_valid():
-            form.save()
-            return redirect('/account')
+            args =form.clean()
+            print(args,' aejgojga')
+            try:
+                print('inside')
+                otp_check = OTP.objects.filter(contact=args.get('mobile_number'))
+                print(otp_check.exists(), ' is val')
+                if otp_check.exists():
+                    print('double inside')
+                    otp_verified= OTP.objects.last().is_otp_verified
+                    print('below')
+                    if not otp_verified:
+                        return HttpResponse('OTP not verified',status=400)
+                    else:
+                        details =  send_email.send_mail(args.get('email_id'))
+                        print(details,' are the detsils')
+                        if details is None:
+                            return HttpResponse(status=400)
+                        else:
+                            # mobile_number = args.get('mobile_number')
+                            # email = args.get('email')
+                            # door_no = args.get('door_number')
+                            print(args.get('email'))
+                            print(type(args.get('mobile_number')))
+                            print(type(args.get('door_number')))
+                            user = UserProfile.objects.create(
+                            email=args.get('email_id'),
+                            contact=args.get('mobile_number'),
+                            door_number=args.get('door_number'))
+                            return HttpResponse('mail sent please check your inbox', status=200)
+                else:
+                    return HttpResponse('no mobile number exists with this information', status=400)
+            except:
+                return HttpResponse('bad request',status=400)
+            
+            # print(args)
+            # return redirect('/register',args)
+    else:
+        form = SignupForm()
+        args = {'form': form}
+        return render(request,'accounts/signup.html',args)
+
+def register(request, email_id):
+    print(email_id)
+    if request.method == 'POST':
+        form = RegistrationForm(request.POST)
+        print('is the form')
+        print(form.is_valid())
+        print(form.errors)
+        if form.is_valid():
+            args=form.clean()
+            print(args)
+            try:
+                user = UserProfile.objects.filter(email=email_id)
+                if(user.exists()):
+                    user = user.first()
+                    user.username=args.get('username')
+                    user.password  = args.get('password1')
+                    user.save() 
+            # form.save()
+                    return redirect('/login')
+                return HttpResponse('hello ...', status=400)
+            except:
+                return HttpResponse('error occured while registering', status=400)
+        else:
+            return HttpResponse("Invalid Ferm", status=400)
     else:
         form = RegistrationForm()
-
         args = {'form': form}
-        return render(request, 'accounts/signup.html',args)
+        return render(request, 'accounts/register.html',args)
 
 @login_required
 def user_home(request):
@@ -65,40 +138,36 @@ def change_password(request):
         args = {'form': form}
         return render(request, 'accounts/change_password.html',args)
 
+# def regView(request):
+#     form = regForm()
+#     form1 = regform1()
+#     if request.method == 'POST':
+#         form = regForm(data=request.POST)
+#         form1 = regform1(data=request.POST)
 
-def regView(request):
-    form = regForm()
-    form1 = regform1()
-    if request.method == 'POST':
-        form = regForm(data=request.POST)
-        form1 = regform1(data=request.POST)
+#         if form.is_valid() and form1.is_valid():
+#             user = form.save()
+#             user.set_password(user.password)
+#             user.save()
 
-        if form.is_valid() and form1.is_valid():
-            user = form.save()
-            user.set_password(user.password)
-            user.save()
+#             profile = form1.save(commit = False)
+#             profile.user = user
+#             profile.save()
+#             return HttpResponse('Register Successfully!!!')
 
-            profile = form1.save(commit = False)
-            profile.user = user
-            profile.save()
-            return HttpResponse('Register Successfully!!!')
-
-    return render(request,'accounts/registration.html',{'form':form,'form1':form1})
+#     return render(request,'accounts/registration.html',{'form':form,'form1':form1})
 
 def generate_otp(request):
-    otp = random.randint(1000,9999)
-    if 'number' in request.GET:
-        message = "Here is your OTP {} for registration \n Don't share it with anyone".format(otp)
-        number = request.GET['number']
-        print(number)
-        headers = {'X-Authy-API-Key': 'A1XkYkSm2wkcNiB3LJDMF9imGXsrHFtc',}
-
+    if request.method == 'GET':
+        mobile_number = request.GET['mobile_number']
+        email = 'amans@gmail.com'
+        print(mobile_number)
+        headers = {'X-Authy-API-Key': 'b1nV9bl94GpFPggznR4UqKehe8gbRih9',}
         data = {
-        'user[email]': 'ffdddbbvhz@sgoogle.com',
-        'user[cellphone]': '9129932523',
+        'user[email]': email,
+        'user[cellphone]': mobile_number,
         'user[country_code]': '91'
         }
-
         response = requests.post('https://api.authy.com/protected/json/users/new', headers=headers, data=data)
         print(response.content)
         if response.status_code == 200:
@@ -107,47 +176,32 @@ def generate_otp(request):
             res=requests.get('https://api.authy.com/protected/json/sms/'+str(UID)+'?force=true', headers=headers, data={})
             print(res.content)
             if res.status_code==200:
-                return HttpResponse(UID,'it works')
+                content = {
+                    'uid': UID,
+                    'contact': mobile_number
+                }
+                print(content)
+                return JsonResponse(content)
+            else:
+                return HttpResponse(0)
         return HttpResponse(0)
+    return HttpResponse(0)
 
-    elif 'user' in request.GET:
-        username = request.GET['user']
-        check = User.objects.filter(username__iexact=username)
-        if len(check) is not 0:
-            for i in check:
-                id = i.id
-            getNumber = UserProfile.objects.get(user_id=id)
-            number = repr(getNumber.contact)
-            #message = "Here is your OTP {} for registration \n Don't share it with anyone".format(otp)
-            headers = {'X-Authy-API-Key': 'A1XkYkSm2wkcNiB3LJDMF9imGXsrHFtc',}
-            data = {}
-            api = requests.post('https://api.authy.com/protected/json/sms/196583372?force=true', headers=headers, params=data)
-            strNum =repr(number)
-            d = strNum.replace(strNum[:6],'******')
-            item1 ='An OTP sent to your {} mobile number \n It may take a minute @'.format(d)
-            list = [item1,otp]
-            print(list)
-            return HttpResponse(list)
-        else:
-            return HttpResponse('Please Enter Correct Username')
-
-    return HttpResponse(otp)
-
-def loginView(request):
-    if request.method == 'GET':
-        username = request.POST['un']
-        user = User.objects.get(username=username)
-        msg = '<h1>Hello {} You are now Logged In</h1>'.format(user.username)
-        login(request,user)
-        return HttpResponse(msg)
-    return render(request,'login.html')
+# def loginView(request):
+#     if request.method == 'GET':
+#         username = request.POST['un']
+#         user = User.objects.get(username=username)
+#         msg = '<h1>Hello {} You are now Logged In</h1>'.format(user.username)
+#         login(request,user)
+#         return HttpResponse(msg)
+#     return render(request,'login.html')
 
 
 def validate_otp(request):
     if request.method == 'GET':
-        OTP=request.GET['number']
-        UID=request.GET['p']
-        headers = {'X-Authy-API-Key': 'A1XkYkSm2wkcNiB3LJDMF9imGXsrHFtc',}
+        OTP=request.GET['otp']
+        UID=request.GET['uid']
+        headers = {'X-Authy-API-Key': 'b1nV9bl94GpFPggznR4UqKehe8gbRih9',}
         data = {}
         print(OTP)
         print(UID)
@@ -157,8 +211,23 @@ def validate_otp(request):
             return HttpResponse(1)
     return HttpResponse(0)
 
+def otp_update(request):
+    if request.method == 'POST':
+        contact = request.POST['contact']
+        print(contact)
+        is_otp_verified = request.POST['is_verified']=='true'
 
-def verify_otp(request):
-    if not request.session.get('is_verified'):
-        return redirect('phone_verification')
-    return render(request, 'verified.html')
+        try:
+            otp= OTP.objects.create(
+                contact=contact,
+                is_otp_verified = is_otp_verified
+            )
+            return HttpResponse(otp.id, status=200)
+        except:
+            return HttpResponse(status=400)
+    return HttpResponse(status=400)
+
+
+
+
+    

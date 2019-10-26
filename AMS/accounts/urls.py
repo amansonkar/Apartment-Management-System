@@ -1,15 +1,13 @@
 from django.urls import path, include
-
 from . import views
 from django.contrib.auth import views as auth_views
 
 urlpatterns = [
     path('', views.home, name='home'),
     path('signin/', auth_views.LoginView.as_view(template_name= 'accounts/signin.html'), name='signin'),
-    path('login/', views.loginView,name='login'),
     path('signout/', auth_views.LogoutView.as_view(template_name= 'accounts/signout.html'), name='signout'),
     path('signup/', views.signup, name='signup'),
-    path('register/',views.regView,name='register'),
+    path('register/<email_id>/',views.register,name='register'),
     path('user/', views.user_home,name='user_home'),
     path('user/profile/', views.view_profile, name='view_profile'),
     path('user/profile/edit/', views.edit_profile, name='edit_profile'),
@@ -20,5 +18,5 @@ urlpatterns = [
     path('reset-password/complete/', auth_views.PasswordResetCompleteView.as_view()),
     path('generate/',views.generate_otp,name='generate'),
     path('validate/',views.validate_otp,name='validate'),
-    path('verify/',views.verify_otp,name='verify'),
+    path('otp_verified/',views.otp_update, name='otp_update')
 ]

@@ -12,6 +12,13 @@ psycopg2 = "*"
 requests = "*"
 pillow = "*"
 sendgrid = "*"
+reportlab = "*"
+django-simple-buefy = "*"
+django-webpack-loader = "*"
+django-sass-processor = "*"
+libsass = "==0.16.0"
+django-compressor = "*"
+pytz = "*"
 
 [requires]
 python_version = "3.7"

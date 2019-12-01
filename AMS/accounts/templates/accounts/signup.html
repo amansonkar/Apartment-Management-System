@@ -72,8 +72,8 @@
 {% block hero-body %}
     <div class="box container section has-text-centered" style="max-width:367px;background-color:lightgoldenrodyellow">
         <header class="is-centered">
-            <h1 class="title is-spaced has-text-weight-bold is-3">Welcome</h1>
-            <p>You can Sign Up here!</p>
+            <h1 class="title is-spaced has-text-weight-bold is-3">SignUp</h1>
+            <p>All fields are mandatory*</p>
             <br>
         </header>
         <div>
@@ -84,7 +84,7 @@
                 {% csrf_token %}
                 <div class="field">
                     <div class="control has-icons-left">
-                        <input id="id_door" class="input" type="text" name="door_number" placeholder="Door Number (1-N-12-799/29)" required autofocus>
+                        <input id="id_door" class="input" type="text" name="door_number" placeholder="Door Number* (1-N-12-799/29)" required autofocus>
                         <span class="icon is-small is-left">
                         <i class="fas fa-door-open"></i>
                         </span>
@@ -93,7 +93,7 @@
                 </div>
                 <div class="field">
                     <p class="control is-expanded has-icons-left">
-                        <input id="id_mobile" class="input" type="text" name="mobile_number" placeholder="Mobile Number" required>
+                        <input id="id_mobile" class="input" type="text" name="mobile_number" placeholder="Mobile Number*" required>
                         <span class="icon is-small is-left">
                             <i class="fas fa-mobile"></i>
                         </span>
@@ -101,7 +101,7 @@
                 </div>
                 <div class="field">
                     <div class="control has-icons-left">
-                        <input id="id_email" class="input" type="text" name="email_id" placeholder="Email" required>
+                        <input id="id_email" class="input" type="text" name="email_id" placeholder="Email*" required>
                         <span class="icon is-small is-left">
                         <i class="fas fa-envelope"></i>
                         </span>
@@ -112,7 +112,7 @@
                 </p>
                 <div id="otp_verify" class="field has-addons" style="display: none;">
                     <div class="control has-icons-left">
-                        <input id="enter_otp" class="input" type="text" name="otp" placeholder="Enter OTP">
+                        <input id="enter_otp" class="input" type="text" name="otp" placeholder="Enter OTP*">
                         <span class="icon is-small is-left">
                         <i class="fas fa-keyboard"></i>
                         </span>

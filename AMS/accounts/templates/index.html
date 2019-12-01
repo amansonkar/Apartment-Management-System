@@ -9,6 +9,8 @@
     <link rel="stylesheet" href="{% static 'accounts/css/style.css' %}">
     <link rel="stylesheet" href="{% static 'accounts/css/formvalidation.css' %}">
     <link rel="stylesheet" href="{% static 'accounts/css/fontawesome.css' %}">
+    <link rel="stylesheet" href="https://cdn.materialdesignicons.com/2.5.94/css/materialdesignicons.min.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/all.css">
     <script src="{% static 'accounts/js/jQuery.js' %}"></script>
     <script src="{% static 'accounts/js/fa.js' %}"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/es6-shim/0.35.3/es6-shim.min.js"></script>    
@@ -37,7 +39,12 @@
                             <div class="columns is-mobile is-marginless heading has-text-weight-bold">
                                 <div class="column left"></div>
                                 <div class="column center desktop">
-                                    <h1 class="subtitle is-4"><a href="{% url 'home' %}">Apartment Management System</a></h1>
+                                    <h1 class="subtitle is-4">
+                                        <a href="{% url 'home' %}">
+                                            <strong style="color:darkcyan;">Apartment</strong>
+                                            <span style="color:sienna;">Management System</span>
+                                        </a>
+                                    </h1>
                                 </div>
                                 <div class="column right">
                                     {% if user.is_authenticated %}
@@ -70,7 +77,7 @@
             {% block body %}
             {% endblock %}
         </div>
-        <div id="footer" style="background-color: khaki">
+        <div id="footer" style="background-color:tan">
             <footer class="section">
                 <div class="container is-small">
                     <div class="content">
@@ -80,8 +87,7 @@
                                     <h1>APARTMENT</h1>
                                     <h6>MANAGEMENT SYSTEM</h6>
                                 </p>
-                                <p class="field" style="margin-top:auto">© 2019 APARTMENT. <span class="no-wrap">All
-                                        rights reserved.</span></p>
+                                <p class="field" style="margin-top:auto">© 2019 APARTMENT. <span class="no-wrap">All rights reserved.</span></p>
                             </div>
                             <div class="column">
                                 <p class="field" ><strong>Company</strong></p>

@@ -1,0 +1,26 @@
+.nav-tag {
+padding-right: 30px;
+}
+.tag-notif {
+border-radius: 50%;
+position: absolute;
+top: 5px;
+margin-left: 10px;
+}
+@media (max-width: 768px) {
+.tag-notif {
+    margin-left: -2px;
+}
+}
+.navbar-brand-logo {
+max-height: 3rem !important;
+border-radius: 0.25em;
+padding: 0.25em;
+}
+.navbar-burger {
+border: 0;
+}
+.navbar-link figure img {
+border-radius: 50%;
+max-height: 2em;
+}

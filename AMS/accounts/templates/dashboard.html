@@ -1,0 +1,136 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en" class="has-aside-left has-aside-mobile-transition has-navbar-fixed-top has-aside-expanded">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <link href="http://cdn.materialdesignicons.com/4.5.95/css/materialdesignicons.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="{% static 'accounts/css/base.css' %}">
+  <script src="{% static 'accounts/js/base.js' %}"></script>
+  <script src="{% static 'accounts/js/vue.js' %}"></script>
+  <style> 
+      .borderedinvoice>* {
+        border:thin solid black;
+        border-top: none;
+      }
+  </style>
+</head>
+
+<body>
+  <div id="app">
+    <nav id="navbar-main" class="navbar is-fixed-top">
+      <div class="navbar-brand is-right">
+        <div class="navbar-item navbar-item-menu-toggle is-hidden-desktop">
+          <a><span class="icon"><i class="mdi mdi-bell default"></i></span></a>
+        </div>
+        <div class="navbar-item navbar-item-menu-toggle is-hidden-desktop">
+          <a><span class="icon"><i class="mdi mdi-dots-vertical default"></i></span></a>
+        </div>
+      </div>
+      <div class="navbar-menu fadeIn animated faster">
+        <div class="navbar-end">
+          <div class="navbar-item has-dropdown has-dropdown-with-icons has-user-avatar">
+            <a class="navbar-link is-arrowless">
+              <!-- <div class="is-user-avatar"><img src="/data-sources/avatars/annie-spratt-121576-unsplash.jpg" alt="John Doe"></div> -->
+              <div class="is-user-name"><span> [[current_user]] </span></div>
+              <span class="icon"><i class="mdi mdi-chevron-down default"></i></span>
+            </a>
+            <div class="navbar-dropdown">
+              <a href="{% url 'user_profile' 'user' %}" class="navbar-item"><span class="icon"><i class="mdi mdi-account default"></i></span><span>My Profile</span></a>
+              <a class="navbar-item"><span class="icon"><i class="mdi mdi-settings default"></i></span><span>Settings</span></a>
+              <a class="navbar-item"><span class="icon"><i class="mdi mdi-email default"></i></span><span>Messages</span></a>
+              <hr class="navbar-divider">
+              <a class="navbar-item"><span class="icon"><i class="mdi mdi-logout default"></i></span><span>Log Out</span></a>
+            </div>
+          </div>
+          <a title="Log out" class="navbar-item">
+            <span class="icon"><i class="mdi mdi-logout default"></i></span>
+            <span>Log out</span>
+          </a>
+        </div>
+      </div>
+    </nav>
+    <aside class="aside is-placed-left is-expanded" style="background:rgb(162, 137, 103);">
+      <div class="aside-container">
+        <div class="image"><img v-bind:src="image"></div>
+        <div class="menu is-menu-main fast">
+          <ul class="menu-list">
+            <li>
+              <a href="{% url 'user_profile' 'user' %}" class="is-active has-icon" title="Profile">
+                <span class="icon"><i class="mdi mdi-account-circle default"></i></span>
+                <span class="menu-item-label">Profile</span>
+              </a>
+            </li>
+            <li>
+              <a href="{% url 'tenants' %}" class="has-icon" title="Tables">
+                <span class="icon has-update-mark"><i class="mdi mdi-table default"></i></span>
+                <span class="menu-item-label">Tenants</span>
+              </a>
+            </li>
+            <li>
+              <a href="{% url 'add_new_tenant' %}" class="has-icon" title="Forms">
+                <span class="icon"> <i class="mdi mdi-square-edit-outline default"></i></span>
+                <span class="menu-item-label">Add New Tenant</span>
+              </a>
+            </li>
+            <li>
+              <a href="{% url 'charges' %}" class="has-icon" title="Forms">
+                <span class="icon"> <i class="mdi mdi-square-edit-outline default"></i></span>
+                <span class="menu-item-label">Monthly Charges</span>
+              </a>
+            </li>
+            <li>
+              <a href="{% url 'expenditure' %}" class="has-icon" title="Forms">
+                <span class="icon"> <i class="mdi mdi-square-edit-outline default"></i></span>
+                <span class="menu-item-label">Expenditure</span>
+              </a>
+            </li>
+            <li>
+              <a class="has-icon" title="Forms">
+                <span class="icon"> <i class="mdi mdi-square-edit-outline default"></i></span>
+                <span class="menu-item-label">Complaints</span>
+              </a>
+            </li>
+            <li>
+              <a class="has-icon" title="Forms">
+                <span class="icon"> <i class="mdi mdi-bell default"></i></span>
+                <span class="menu-item-label">Notices</span>
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </aside>
+
+    {% block section %}
+
+    {% endblock %}
+    
+    <footer class="footer" style="background-color:tan;">
+      <div class="section">
+        <div class="level">
+          <div class="level-left">
+            <div class="level-item">
+              <div class="field">
+                <h1 class="title">APARTMENT</h1>
+                <h6>MANAGEMENT SYSTEM</h6>
+                <p>© 2019 APARTMENT. <span class="no-wrap">All rights reserved.</span></p>
+              </div>
+            </div>
+          </div>
+          <div class="level-right">
+            <div class="level-item">
+              <!-- <div class="logo"><a href=""><img src="{% static 'accounts/img/ams.png' %}" alt="apartment management system"></a></div> -->
+            </div>
+          </div>
+        </div>
+      </div>
+    </footer>
+  </div>
+  <script src="{% static 'accounts/js/main.js' %}"></script>
+</body>
+
+</html>

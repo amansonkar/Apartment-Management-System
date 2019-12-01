@@ -1,0 +1,18 @@
+{% extends 'index.html' %}
+
+{% block hero-body %}
+    <div class="box section container has-text-centered">
+        <header is-center>
+            <p>Welcome Flat Owner</p>
+            <h1 class="title is-spaced has-text-weight-bold is-3">{{user.username}}</h1>
+        </header>
+    </div>
+    {% if next %}
+        {% if user.is_authenticated %}
+        <p>Your account doesn't have access to this page. To proceed,
+        please login with an account that has access.</p>
+        {% else %}
+        <p>Please login to see this page.</p>
+        {% endif %}
+    {% endif %}
+{% endblock %}

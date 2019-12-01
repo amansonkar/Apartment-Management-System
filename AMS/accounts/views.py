@@ -230,4 +230,44 @@ def otp_update(request):
 
 
 
-    
+# ------------------------------------------------------
+
+def flat_owner_home(request):
+    args = {'user': request.user}
+    return render(request, 'dashboard/profile.html',args)
+
+def user_profile(request,name):
+    args = {'user': request.user}
+    return render(request, 'dashboard/profile.html',args)
+
+def tenants(request):
+    args = {'user': request.user}
+    return render(request, 'dashboard/tenants.html',args)
+
+def add_new_tenant(request):
+    args = {'user': request.user}
+    return render(request, 'dashboard/tenant_new.html',args)
+
+def charges(request):
+    args = {'user': request.user}
+    return render(request, 'dashboard/charges.html',args)
+
+def expenditure(request):
+    args = {'user': request.user}
+    return render(request, 'dashboard/expenditure.html',args)
+
+def president_home(request):
+    args = {'user': request.user}
+    return render(request, 'accounts/home_president.html',args)
+
+def secretary_home(request):
+    args = {'user': request.user}
+    return render(request, 'accounts/home_secretary.html',args)
+
+def treasurer_home(request):
+    args = {'user': request.user}
+    return render(request, 'dashboard/admin.html',args)
+
+def office_bearer_home(request):
+    args = {'user': request.user}
+    return render(request, 'accounts/home_office_bearer.html',args)

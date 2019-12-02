@@ -258,16 +258,16 @@ def expenditure(request):
 
 def president_home(request):
     args = {'user': request.user}
-    return render(request, 'accounts/home_president.html',args)
+    return render(request, 'dashboard/profile.html',args)
 
 def secretary_home(request):
     args = {'user': request.user}
-    return render(request, 'accounts/home_secretary.html',args)
+    return render(request, 'dashboard/profile.html',args)
 
 def treasurer_home(request):
     args = {'user': request.user}
-    return render(request, 'dashboard/admin.html',args)
+    return render(request, 'dashboard/profile.html',args)
 
 def office_bearer_home(request):
     args = {'user': request.user}
-    return render(request, 'accounts/home_office_bearer.html',args)
+    return render(request, 'dashboard/profile.html',args)

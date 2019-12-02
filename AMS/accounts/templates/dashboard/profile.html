@@ -1,4 +1,5 @@
 {% extends 'dashboard.html' %}
+{% load static %}
 {% block section %}
     <section class="section">
         <div class="is-title-bar">
@@ -19,7 +20,7 @@
             <div class="tile is-parent">
                 <div data-v-ac2ee6e4="" class="card tile is-child">
                     <header data-v-ac2ee6e4="" class="card-header">
-                        <p data-v-ac2ee6e4="" class="card-header-title"><span data-v-ac2ee6e4="" class="icon"><i
+                        <p data-v-ac2ee6e4="" class="card-header-title"><span data-v-ac2ee6e4=""  class="icon"><i
                                     class="mdi mdi-account-circle default"></i></span>
                             Edit Profile
                         </p>
@@ -46,7 +47,7 @@
                             </div>
                             <hr data-v-ac2ee6e4="">
                             <div class="field is-horizontal" data-v-ac2ee6e4="">
-                                <div class="field-label is-normal"><label class="label">Name</label></div>
+                                <div class="field-label is-normal"><label class="label">Username</label></div>
                                 <div class="field-body">
                                     <div class="field">
                                         <!---->
@@ -56,23 +57,21 @@
                                             <!---->
                                             <!---->
                                         </div>
-                                        <p class="help">Required. Your name</p>
                                     </div>
                                 </div>
                                 <!---->
                             </div>
                             <div class="field is-horizontal" data-v-ac2ee6e4="">
-                                <div class="field-label is-normal"><label class="label">E-mail</label></div>
+                                <div class="field-label is-normal"><label class="label">Address</label></div>
                                 <div class="field-body">
                                     <div class="field">
                                         <!---->
-                                        <div class="control"><input type="email" autocomplete="on" name="email"
+                                        <div class="control"><input type="address" autocomplete="on" name="address"
                                                 required="required" class="input">
                                             <!---->
                                             <!---->
                                             <!---->
                                         </div>
-                                        <p class="help">Required. Your e-mail</p>
                                     </div>
                                 </div>
                                 <!---->
@@ -108,20 +107,27 @@
                     </header>
                     <div data-v-ac2ee6e4="" class="card-content">
                         <div data-v-ac2ee6e4="" class="image is-user-avatar has-max-width is-aligned-center"><img
-                                data-v-ac2ee6e4="" src="/data-sources/avatars/annie-spratt-121576-unsplash.jpg"
-                                alt="John Doe"></div>
+                                data-v-ac2ee6e4="" src="{% static 'accounts/img/dummy-user.jpg' %}"
+                                alt="profile_photo"></div>
                         <hr data-v-ac2ee6e4="">
                         <div class="field" data-v-ac2ee6e4=""><label class="label">Name</label>
-                            <div class="control is-clearfix"><input type="text" autocomplete="on" readonly="readonly"
-                                    class="input is-static">
-                                <!---->
-                                <!---->
-                                <!---->
-                            </div>
-                            <!---->
+                            Aman Sonkar
+                        </div>
+                        <hr data-v-ac2ee6e4="">
+                        <div class="field" data-v-ac2ee6e4=""><label class="label">Mobile</label>
+                            9129932523
+                        </div>
+                        <hr data-v-ac2ee6e4="">
+                        <div class="field" data-v-ac2ee6e4=""><label class="label">Flat No.</label>
+                            1-N-12-799/29
+                        </div>
+                        <hr data-v-ac2ee6e4="">
+                        <div class="field" data-v-ac2ee6e4=""><label class="label">Address</label>
+                            Akbarpur,U.P,India
                         </div>
                         <hr data-v-ac2ee6e4="">
                         <div class="field" data-v-ac2ee6e4=""><label class="label">E-mail</label>
+                            amansonkr@gmail.com
                             <div class="control is-clearfix"><input type="text" autocomplete="on" readonly="readonly"
                                     class="input is-static">
                                 <!---->
